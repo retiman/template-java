@@ -1,0 +1,27 @@
+plugins {
+  id 'java'
+}
+
+dependencies {
+  annotationProcessor rootProject.ext.dependencies.'auto-value'
+
+  implementation rootProject.ext.dependencies.'apiguardian-api'
+  implementation rootProject.ext.dependencies.'auto-value-annotations'
+  implementation rootProject.ext.dependencies.'guava'
+  implementation rootProject.ext.dependencies.'guice'
+  implementation rootProject.ext.dependencies.'guice-assistedinject'
+  implementation rootProject.ext.dependencies.'log4j-api'
+  implementation rootProject.ext.dependencies.'log4j-core'
+  implementation rootProject.ext.dependencies.'log4j-slf4j-impl'
+  implementation rootProject.ext.dependencies.'slf4j-api'
+
+  testImplementation rootProject.ext.dependencies.'assertj-core'
+  testImplementation rootProject.ext.dependencies.'junit-jupiter-api'
+  testImplementation rootProject.ext.dependencies.'junit-jupiter-engine'
+  testImplementation rootProject.ext.dependencies.'junit-jupiter-params'
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}

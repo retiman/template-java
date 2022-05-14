@@ -1,0 +1,6 @@
+*.class
+*.jar
+
+.gradle/
+template-java-repository/bin/
+template-java-repository/build/
