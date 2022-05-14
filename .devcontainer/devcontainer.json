@@ -15,10 +15,11 @@
 		"java.jdt.ls.home": "/docker-java-home"
 	},
 	"extensions": [
+		"EditorConfig.EditorConfig",
+		"Tyriar.windows-terminal",
 		"medo64.render-crlf",
-		"tyriar.windows-terminal",
 		"vscjava.vscode-gradle",
-		"vscjava.vscode-java-pack"
+		"vscjava.vscode-java-pack",
 	],
 	"postCreateCommand": "java -version",
 	"remoteUser": "vscode"
