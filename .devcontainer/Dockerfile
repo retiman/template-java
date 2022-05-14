@@ -1,3 +1,4 @@
+# Base Dockerfile: https://github.com/microsoft/vscode-dev-containers/blob/v0.234.0/containers/java/.devcontainer/base.Dockerfile
 ARG VARIANT="17-bullseye"
 FROM mcr.microsoft.com/vscode/devcontainers/java:0-${VARIANT}
 

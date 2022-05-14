@@ -14,6 +14,8 @@
 		"java.jdt.ls.home": "/docker-java-home"
 	},
 	"extensions": [
+		"tyriar.windows-terminal",
+		"vscjava.vscode-gradle",
 		"vscjava.vscode-java-pack"
 	],
 	"postCreateCommand": "java -version",
