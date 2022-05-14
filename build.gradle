@@ -4,7 +4,6 @@ plugins {
 
 allprojects {
   repositories {
-    jcenter()
     mavenCentral()
   }
 }
@@ -18,17 +17,6 @@ subprojects { p ->
 
   tasks.withType(Test) {
     useJUnitPlatform()
-
-    testLogging {
-      events 'passed', 'skipped', 'failed'
-      showCauses = true
-      showExceptions = true
-      showStackTraces = true
-
-      outputs.upToDateWhen {
-        false
-      }
-    }
   }
 }
 
