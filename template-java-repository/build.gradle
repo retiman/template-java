@@ -1,0 +1,70 @@
+plugins {
+  id 'java'
+  id 'jacoco'
+  id 'checkstyle'
+  id 'com.github.spotbugs' version '4.6.0'
+}
+
+dependencies {
+  annotationProcessor rootProject.ext.dependencies.'auto-value'
+
+  implementation rootProject.ext.dependencies.'apiguardian-api'
+  implementation rootProject.ext.dependencies.'auto-value-annotations'
+  implementation rootProject.ext.dependencies.'guava'
+  implementation rootProject.ext.dependencies.'guice'
+  implementation rootProject.ext.dependencies.'guice-assistedinject'
+  implementation rootProject.ext.dependencies.'log4j-api'
+  implementation rootProject.ext.dependencies.'log4j-core'
+  implementation rootProject.ext.dependencies.'log4j-slf4j-impl'
+  implementation rootProject.ext.dependencies.'slf4j-api'
+
+  testImplementation rootProject.ext.dependencies.'assertj-core'
+  testImplementation rootProject.ext.dependencies.'junit-jupiter-api'
+  testImplementation rootProject.ext.dependencies.'junit-jupiter-engine'
+  testImplementation rootProject.ext.dependencies.'junit-jupiter-params'
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
+}
+
+checkstyle {
+  toolVersion = '8.29'
+  ignoreFailures = false
+  showViolations = true
+}
+
+spotbugs {
+  toolVersion = '4.2.1'
+}
+
+spotbugsMain {
+  reports {
+    html.enabled = true
+  }
+}
+
+spotbugsTest {
+  reports {
+    html.enabled = true
+  }
+}
+
+test {
+  finalizedBy jacocoTestReport
+}
+
+jacoco {
+  toolVersion = '0.8.6'
+}
+
+jacocoTestReport {
+  dependsOn test
+
+  afterEvaluate {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: '**/AutoValue_*')
+    }))
+  }
+}
