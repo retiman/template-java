@@ -11,3 +11,8 @@ RUN if [ "${INSTALL_MAVEN}" = "true" ]; then su vscode -c "umask 0002 && . /usr/
 
 ARG NODE_VERSION="none"
 RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+
+# Add a custom prompt to the image because the default one is a bit too noisy.
+WORKDIR /home/vscode
+ADD .devcontainer/prompt.sh prompt.sh
+RUN cat prompt.sh >> .bashrc && rm prompt.sh

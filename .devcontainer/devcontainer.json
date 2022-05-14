@@ -1,6 +1,7 @@
 {
 	"name": "Java",
 	"build": {
+		"context": "..",
 		"dockerfile": "Dockerfile",
 		"args": {
 			"GRADLE_VERSION": "7.4.2",
