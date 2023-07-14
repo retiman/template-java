@@ -2,5 +2,5 @@
 *.jar
 
 .gradle/
-template-java-repository/bin/
-template-java-repository/build/
+template-java/bin/
+template-java/build/
