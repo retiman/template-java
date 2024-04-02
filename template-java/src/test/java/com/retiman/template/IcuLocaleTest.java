@@ -1,4 +1,4 @@
-package com.retiman.java;
+package com.retiman.template;
 
 import java.util.Locale;
 

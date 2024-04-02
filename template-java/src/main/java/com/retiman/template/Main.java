@@ -1,4 +1,4 @@
-package com.retiman.java;
+package com.retiman.template;
 
 public class Main {
   public static void main(String[] args) {
