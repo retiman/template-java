@@ -1,5 +1,6 @@
 plugins {
   id 'java'
+  id 'checkstyle'
 }
 
 dependencies {
@@ -11,18 +12,25 @@ dependencies {
   implementation rootProject.ext.dependencies.'guice'
   implementation rootProject.ext.dependencies.'guice-assistedinject'
   implementation rootProject.ext.dependencies.'icu4j'
-  implementation rootProject.ext.dependencies.'log4j-api'
-  implementation rootProject.ext.dependencies.'log4j-core'
-  implementation rootProject.ext.dependencies.'log4j-slf4j-impl'
   implementation rootProject.ext.dependencies.'slf4j-api'
 
   testImplementation rootProject.ext.dependencies.'assertj-core'
   testImplementation rootProject.ext.dependencies.'junit-jupiter-api'
   testImplementation rootProject.ext.dependencies.'junit-jupiter-engine'
   testImplementation rootProject.ext.dependencies.'junit-jupiter-params'
+
+  testRuntimeOnly rootProject.ext.dependencies.'log4j-api'
+  testRuntimeOnly rootProject.ext.dependencies.'log4j-core'
+  testRuntimeOnly rootProject.ext.dependencies.'log4j-slf4j-impl'
 }
 
 java {
   sourceCompatibility = JavaVersion.VERSION_17
   targetCompatibility = JavaVersion.VERSION_17
+}
+
+checkstyle {
+  toolVersion = '8.29'
+  ignoreFailures = false
+  showViolations = true
 }
