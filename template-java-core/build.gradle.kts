@@ -12,6 +12,14 @@ java {
   }
 }
 
+tasks.withType<JavaCompile>().configureEach {
+  options.compilerArgs.add("-Xlint:deprecation")
+}
+
+tasks.test {
+  useJUnitPlatform()
+}
+
 // "annotationProcessor" deps go on the classpath prior to compilation.
 // "api" deps go on compile and runtime classpaths, exported to consumers.
 // "implementation" deps go on the compile and runtime classpaths.
@@ -43,4 +51,5 @@ dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter-params:5.12.1")
 
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.12.1")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.12.1")
 }
