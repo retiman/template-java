@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 
+@SuppressWarnings("deprecation")
 public final class JdkLocaleTest {
   @Test
   public void testStringRepresentations() {
