@@ -1,4 +1,4 @@
-package com.retiman.template;
+package com.retiman.template.locale;
 
 import java.util.IllformedLocaleException;
 import java.util.Locale;
