@@ -1,6 +1,6 @@
 # template-java
 
-Template repository for my private Java projects.
+Template repository for my Java projects.
 
 ## Local Development
 
