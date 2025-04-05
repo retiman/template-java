@@ -1,10 +1,9 @@
 package com.retiman.template.lang;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.util.Optional;
+import java.util.function.Supplier;
 import org.junit.jupiter.api.Test;
 
 public final class LangTest {
@@ -25,8 +24,8 @@ public final class LangTest {
 
   @Test
   public void testVar() {
-    // Java 10 introduced the var keyword.  For some reason, you also declare constants with the var
-    // keyword.
+    // Java 10 introduced the var keyword.  Java favors orthogonality and final already exists, so
+    // you can combine language features like building blocks here.  Uh huh.
     var x = 1;
     final var y = 1;
 
@@ -34,20 +33,26 @@ public final class LangTest {
   }
 
   @Test
-  public void testOptional() {
-    // Java 9 introduced Optional#ifPresentOrElse() so you can handle the just and nothing case
-    // separately.
-    Optional.of("Alice")
-        .ifPresentOrElse(
-            name -> assertThat(name).isEqualTo("Alice"), () -> fail("No value present"));
+  public void testStrings() {
+    // Java 11 introduced String#strip() to augment String#trim(), which only works on ASCII.
+    assertThat(" 你好，世界 ".strip()).isEqualTo("你好，世界");
+    assertThat(" Hello World ".trim()).isEqualTo("Hello World");
+  }
 
-    // Java 9 introduced Optional#or() so you can supply multiple fallbacks.
-    var fallbacks =
-        Optional.empty()
-            .or(() -> Optional.of("first fallback"))
-            .or(() -> Optional.of("second fallback"))
-            .or(() -> Optional.of("third fallback"));
-    assertThat(fallbacks.get()).isEqualTo("first fallback");
+  @Test
+  public void testSwitch() {
+    // Java 12 introduced switch expressions.
+    var day = (Supplier<String>) () -> "TUESDAY";
+    var letters =
+        switch (day.get()) {
+          case "MONDAY", "FRIDAY", "SUNDAY" -> 6;
+          case "TUESDAY" -> 7;
+          case "THURSDAY", "SATURDAY" -> 8;
+          case "WEDNESDAY" -> 9;
+          default -> throw new IllegalArgumentException("Invalid day: " + day);
+        };
+
+    assertThat(letters).isEqualTo(7);
   }
 
   @SuppressFBWarnings("RC_REF_COMPARISON")
