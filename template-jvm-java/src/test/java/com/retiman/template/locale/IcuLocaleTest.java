@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public final class IcuLocaleTest {
   @Test
   public void testStringRepresentations() {
-    ULocale locale =
+    var locale =
         new ULocale.Builder()
             .setLanguage("zh")
             .setScript("Hans")
@@ -49,19 +49,19 @@ public final class IcuLocaleTest {
     // of the language tag.  In spite of the case normalization applied to variants, you will get
     // the correct IETF
     // language tag (with a lowercased variant) if you ask for it.
-    String tag = "zh-Hans-CN-wadegile-t-en-u-latn-x-apex";
+    var tag = "zh-Hans-CN-wadegile-t-en-u-latn-x-apex";
     assertThat(locale.toLanguageTag()).isEqualTo(tag);
     assertThat(ULocale.forLanguageTag(tag)).isEqualTo(locale);
 
     // Unfortunately, though, if you try to convert this corresponding ULocale to a JDK locale, the
     // variant will remain
     // uppercased.
-    Locale jdkLocale = Locale.forLanguageTag(tag);
-    ULocale icuLocale = ULocale.forLanguageTag(tag);
+    var jdkLocale = Locale.forLanguageTag(tag);
+    var icuLocale = ULocale.forLanguageTag(tag);
     assertThat(jdkLocale).isNotEqualTo(icuLocale);
 
     // To construct a corresponding JDK locale, the variant must be lowercased.
-    Locale transformed =
+    var transformed =
         new Locale.Builder()
             .setLocale(icuLocale.toLocale())
             .setVariant(icuLocale.getVariant().toLowerCase(Locale.US))
@@ -71,8 +71,8 @@ public final class IcuLocaleTest {
 
   @Test
   public void testNonEquivalentLegacyCodes() {
-    ULocale iw = new ULocale("iw");
-    ULocale he = new ULocale("he");
+    var iw = new ULocale("iw");
+    var he = new ULocale("he");
 
     // The ICU locale class is mostly WYSIWYG.  If you asked for "iw", you get "iw".  If you asked
     // for "he", you'll get
@@ -99,8 +99,8 @@ public final class IcuLocaleTest {
   public void testLanguageCodes() {
     // A list of ISO-639 codes can be found here:
     // https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-    ULocale afrikaans2c = new ULocale("af");
-    ULocale afrikaans3c = new ULocale("afr");
+    var afrikaans2c = new ULocale("af");
+    var afrikaans3c = new ULocale("afr");
 
     assertThat(afrikaans2c.toString()).isEqualTo("af");
     assertThat(afrikaans2c.toLanguageTag()).isEqualTo("af");
@@ -118,8 +118,8 @@ public final class IcuLocaleTest {
 
   @Test
   public void testLanguageCodesNormalized() {
-    ULocale lower = new ULocale("en");
-    ULocale upper = new ULocale("EN");
+    var lower = new ULocale("en");
+    var upper = new ULocale("EN");
 
     assertThat(lower.getLanguage()).isEqualTo("en");
     assertThat(upper.getLanguage()).isEqualTo("en");
@@ -132,14 +132,14 @@ public final class IcuLocaleTest {
   public void testInvalidLanguageCodes() {
     // A list of ISO-639 codes can be found here:
     // https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-    ULocale locale = new ULocale("abcd");
+    var locale = new ULocale("abcd");
 
     assertThat(locale.toLanguageTag()).isEqualTo("abcd");
   }
 
   @Test
   public void testInvalidTooShortScript() {
-    Throwable thrown =
+    var thrown =
         catchThrowable(() -> new ULocale.Builder().setLanguage("zh").setScript("Han").build());
 
     assertThat(thrown).isExactlyInstanceOf(IllformedLocaleException.class);
@@ -147,7 +147,7 @@ public final class IcuLocaleTest {
 
   @Test
   public void testInvalidScriptForLanguage() {
-    ULocale locale = new ULocale.Builder().setLanguage("en").setScript("Hant").build();
+    var locale = new ULocale.Builder().setLanguage("en").setScript("Hant").build();
 
     assertThat(locale.toString()).isEqualTo("en_Hant");
     assertThat(locale.toLanguageTag()).isEqualTo("en-Hant");
@@ -156,8 +156,8 @@ public final class IcuLocaleTest {
   @Test
   public void testRegionCodes() {
     // A list of ISO-3661 codes can be found here: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-    ULocale franceFr = new ULocale("fr", "FR");
-    ULocale france250 = new ULocale("fr", "250");
+    var franceFr = new ULocale("fr", "FR");
+    var france250 = new ULocale("fr", "250");
 
     assertThat(franceFr.toLanguageTag()).isEqualTo("fr-FR");
     assertThat(france250.toLanguageTag()).isEqualTo("fr-250");
@@ -166,8 +166,8 @@ public final class IcuLocaleTest {
 
   @Test
   public void testRegionCodesNormalized() {
-    ULocale lower = new ULocale("fr", "fr");
-    ULocale upper = new ULocale("fr", "FR");
+    var lower = new ULocale("fr", "fr");
+    var upper = new ULocale("fr", "FR");
 
     assertThat(lower.getCountry()).isEqualTo("FR");
     assertThat(upper.getCountry()).isEqualTo("FR");
@@ -178,7 +178,7 @@ public final class IcuLocaleTest {
 
   @Test
   public void testVariantsAreUppercasedExceptInLanguageTags() {
-    ULocale locale = new ULocale("en", "US", "variant");
+    var locale = new ULocale("en", "US", "variant");
 
     assertThat(locale.getVariant()).isEqualTo("VARIANT");
     assertThat(locale.toLanguageTag()).isEqualTo("en-US-variant");
@@ -186,7 +186,7 @@ public final class IcuLocaleTest {
 
   @Test
   public void testInvalidShortVariantsAreConvertedToExtensions() {
-    ULocale locale = new ULocale("en", "US", "1");
+    var locale = new ULocale("en", "US", "1");
 
     // The toString value gives the variant value as is.  Since the toString value is not part of
     // any specification,
@@ -199,11 +199,11 @@ public final class IcuLocaleTest {
     assertThat(locale.toLanguageTag()).isEqualTo("en-US-x-lvariant-1");
 
     // They can be converted back to ULocales as well.
-    ULocale converted = ULocale.forLanguageTag("en-US-x-lvariant-1");
+    var converted = ULocale.forLanguageTag("en-US-x-lvariant-1");
 
     assertThat(converted.getVariant()).isEqualTo("1");
 
-    ULocale extension =
+    var extension =
         new ULocale.Builder()
             .setLanguage("en")
             .setRegion("US")
@@ -214,7 +214,7 @@ public final class IcuLocaleTest {
 
   @Test
   public void testInvalidLongVariantsAreDiscarded() {
-    ULocale locale = new ULocale("en", "US", "thisvariantistoolong");
+    var locale = new ULocale("en", "US", "thisvariantistoolong");
 
     // The toString value gives the variant value as is.  Since the toString value is not part of
     // any specification,
@@ -232,7 +232,7 @@ public final class IcuLocaleTest {
 
   @Test
   public void testInvalidExtensionsThatAreTooShort() {
-    ULocale locale = new ULocale.Builder().setLanguage("en").setExtension('x', "1").build();
+    var locale = new ULocale.Builder().setLanguage("en").setExtension('x', "1").build();
 
     assertThat(locale.toString()).isEqualTo("en@x=1");
     assertThat(locale.toLanguageTag()).isEqualTo("en-x-1");
@@ -245,7 +245,7 @@ public final class IcuLocaleTest {
 
   @Test
   public void testInvalidExtensionsThatAreTooLongAreIllformed() {
-    Throwable thrown =
+    var thrown =
         catchThrowable(
             () ->
                 new ULocale.Builder()
