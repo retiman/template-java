@@ -1,5 +1,5 @@
 // Required for multi-module projects.
-rootProject.name = "template-java"
+rootProject.name = "template-jvm"
 
 // Don't name any of your modules the same name as the root project or else you will be sad.
-include(":template-java-core")
+include(":template-jvm-java")
