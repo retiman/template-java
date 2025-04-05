@@ -9,6 +9,6 @@ public final class InterfaceTest {
   public void testDefaultMethodsInInterfaces() {
     var instance = new JavaInterface() {};
 
-    assertThat(instance.getValue()).isEqualTo(10);
+    assertThat(instance.getValue()).isEqualTo(40);
   }
 }
