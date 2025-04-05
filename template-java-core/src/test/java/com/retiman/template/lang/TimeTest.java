@@ -1,39 +1,12 @@
 package com.retiman.template.lang;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-interface Java8Interface {
-  default int getValue() {
-    return 10;
-  }
-}
-
-public final class Java8Test {
-  @Test
-  public void testStreamsAPI() {
-    List<Integer> xs = List.of(1, 2, 3, 4);
-
-    int result = xs.stream()
-      .filter(x -> x > 1)
-      .map(x -> x + 1)
-      .reduce(0, Integer::sum);
-
-    assertThat(result).isEqualTo(12);
-  }
-
-  @Test
-  public void testDefaultMethodsInInterfaces() {
-    Java8Interface instance = new Java8Interface() {};
-
-    assertThat(instance.getValue()).isEqualTo(10);
-  }
-
+public final class TimeTest {
   @Test
   public void testLocalDate() {
     // With Java 8, JodaTime is obsolete.  Migrate to java.time instead.

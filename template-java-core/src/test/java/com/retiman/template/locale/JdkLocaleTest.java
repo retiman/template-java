@@ -1,33 +1,35 @@
 package com.retiman.template.locale;
 
-import java.util.IllformedLocaleException;
-import java.util.Locale;
-
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
+import java.util.IllformedLocaleException;
+import java.util.Locale;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("deprecation")
 public final class JdkLocaleTest {
   @Test
   public void testStringRepresentations() {
-    Locale locale = new Locale.Builder()
-        .setLanguage("zh")
-        .setScript("Hans")
-        .setRegion("CN")
-        .setVariant("wadegile")
-        .setExtension('t', "en")
-        .setExtension('u', "latn")
-        .setExtension('x', "apex")
-        .build();
+    Locale locale =
+        new Locale.Builder()
+            .setLanguage("zh")
+            .setScript("Hans")
+            .setRegion("CN")
+            .setVariant("wadegile")
+            .setExtension('t', "en")
+            .setExtension('u', "latn")
+            .setExtension('x', "apex")
+            .build();
 
-    // JDK locale toString method is designed for debuggability and not intended to be any type of standard.  It's not
+    // JDK locale toString method is designed for debuggability and not intended to be any type of
+    // standard.  It's not
     // possible to go from this string representation to a locale or a language tag.
     //
-    // The JDK documentation states that "clients who parse the output of toString into language, country, and variant
-    // fields can continue to do so (although this is strongly discouraged), although the variant field will have
+    // The JDK documentation states that "clients who parse the output of toString into language,
+    // country, and variant
+    // fields can continue to do so (although this is strongly discouraged), although the variant
+    // field will have
     // additional information in it if script or extensions are present."
     //
     // Parsing the toString output of locales with scripts is not advised.
@@ -50,11 +52,14 @@ public final class JdkLocaleTest {
     Locale iw = new Locale("iw");
     Locale he = new Locale("he");
 
-    // In older versions of Java, the JDK locale class conveniently converts the ISO-639 code for "he" (Hebrew) to "iw"
-    // for you.  The "iw" code was changed in 1989 to "he", so it is considered the legacy code, but the JDK was big on
+    // In older versions of Java, the JDK locale class conveniently converts the ISO-639 code for
+    // "he" (Hebrew) to "iw"
+    // for you.  The "iw" code was changed in 1989 to "he", so it is considered the legacy code, but
+    // the JDK was big on
     // backwards compatibility for this matter.  This is no longer true in OpenJDK 17.
     //
-    // The toString method and getLanguage method will always give you back the OLD value, no matter what.
+    // The toString method and getLanguage method will always give you back the OLD value, no matter
+    // what.
     assertThat(iw.toString()).isEqualTo("he");
     assertThat(he.toString()).isEqualTo("he");
     assertThat(iw.getLanguage()).isEqualTo("he");
@@ -73,7 +78,8 @@ public final class JdkLocaleTest {
 
   @Test
   public void testLanguageCodes() {
-    // A list of ISO-639 codes can be found here: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+    // A list of ISO-639 codes can be found here:
+    // https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
     Locale afrikaans2c = new Locale("af");
     Locale afrikaans3c = new Locale("afr");
 
@@ -98,7 +104,8 @@ public final class JdkLocaleTest {
 
   @Test
   public void testInvalidLanguageCodes() {
-    // A list of ISO-639 codes can be found here: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+    // A list of ISO-639 codes can be found here:
+    // https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
     Locale locale = new Locale("abcd");
 
     assertThat(locale.toLanguageTag()).isEqualTo("abcd");
@@ -106,20 +113,15 @@ public final class JdkLocaleTest {
 
   @Test
   public void testInvalidTooShortScript() {
-    Throwable thrown = catchThrowable(() -> new Locale.Builder()
-        .setLanguage("zh")
-        .setScript("Han")
-        .build());
+    Throwable thrown =
+        catchThrowable(() -> new Locale.Builder().setLanguage("zh").setScript("Han").build());
 
     assertThat(thrown).isExactlyInstanceOf(IllformedLocaleException.class);
   }
 
   @Test
   public void testInvalidScriptForLanguage() {
-    Locale locale = new Locale.Builder()
-        .setLanguage("en")
-        .setScript("Hant")
-        .build();
+    Locale locale = new Locale.Builder().setLanguage("en").setScript("Hant").build();
 
     assertThat(locale.toString()).isEqualTo("en__#Hant");
     assertThat(locale.toLanguageTag()).isEqualTo("en-Hant");
@@ -160,11 +162,13 @@ public final class JdkLocaleTest {
   public void testInvalidShortVariantsAreConvertedToExtensions() {
     Locale locale = new Locale("en", "US", "1");
 
-    // The toString value gives the variant value as is.  Since the toString value is not part of any specification,
+    // The toString value gives the variant value as is.  Since the toString value is not part of
+    // any specification,
     // the variant part can be as many characters as you want.
     assertThat(locale.toString()).isEqualTo("en_US_1");
 
-    // Variants must be between 5-8 characters, if they are too short, they are converted to extensions.
+    // Variants must be between 5-8 characters, if they are too short, they are converted to
+    // extensions.
     assertThat(locale.getVariant()).isEqualTo("1");
     assertThat(locale.toLanguageTag()).isEqualTo("en-US-x-lvariant-1");
 
@@ -173,11 +177,12 @@ public final class JdkLocaleTest {
 
     assertThat(converted.getVariant()).isEqualTo("1");
 
-    Locale extension = new Locale.Builder()
-        .setLanguage("en")
-        .setRegion("US")
-        .setExtension('x', "lvariant-1")
-        .build();
+    Locale extension =
+        new Locale.Builder()
+            .setLanguage("en")
+            .setRegion("US")
+            .setExtension('x', "lvariant-1")
+            .build();
     assertThat(extension).isEqualTo(converted);
   }
 
@@ -185,12 +190,15 @@ public final class JdkLocaleTest {
   public void testInvalidLongVariantsAreDiscarded() {
     Locale locale = new Locale("en", "US", "thisvariantistoolong");
 
-    // The toString value gives the variant value as is.  Since the toString value is not part of any specification,
+    // The toString value gives the variant value as is.  Since the toString value is not part of
+    // any specification,
     // the variant part can be as many characters as you want.
     assertThat(locale.toString()).isEqualTo("en_US_thisvariantistoolong");
 
-    // Variants must be between 5-8 characters, if they are too long, they are dropped.  This is because extensions must
-    // be between 2-8 characters, and separated by hyphens.  Converting to an extension would result in a too long
+    // Variants must be between 5-8 characters, if they are too long, they are dropped.  This is
+    // because extensions must
+    // be between 2-8 characters, and separated by hyphens.  Converting to an extension would result
+    // in a too long
     // extension, and instead the variant is dropped when creating a language tag.
     assertThat(locale.getVariant()).isEqualTo("thisvariantistoolong");
     assertThat(locale.toLanguageTag()).isEqualTo("en-US");
@@ -198,18 +206,12 @@ public final class JdkLocaleTest {
 
   @Test
   public void testInvalidExtensionsThatAreTooShort() {
-    Locale locale = new Locale.Builder()
-        .setLanguage("en")
-        .setExtension('x', "1")
-        .build();
+    Locale locale = new Locale.Builder().setLanguage("en").setExtension('x', "1").build();
 
     assertThat(locale.toString()).isEqualTo("en__#x-1");
     assertThat(locale.toLanguageTag()).isEqualTo("en-x-1");
 
-    locale = new Locale.Builder()
-        .setLanguage("en")
-        .setExtension('x', "")
-        .build();
+    locale = new Locale.Builder().setLanguage("en").setExtension('x', "").build();
 
     assertThat(locale.toString()).isEqualTo("en");
     assertThat(locale.toLanguageTag()).isEqualTo("en");
@@ -217,10 +219,13 @@ public final class JdkLocaleTest {
 
   @Test
   public void testInvalidExtensionsThatAreTooLongAreIllformed() {
-    Throwable thrown = catchThrowable(() -> new Locale.Builder()
-        .setLanguage("en")
-        .setExtension('x', "thisextensionistoolong")
-        .build());
+    Throwable thrown =
+        catchThrowable(
+            () ->
+                new Locale.Builder()
+                    .setLanguage("en")
+                    .setExtension('x', "thisextensionistoolong")
+                    .build());
 
     assertThat(thrown).isExactlyInstanceOf(IllformedLocaleException.class);
   }

@@ -1,5 +1,7 @@
 plugins {
   kotlin("jvm").version("1.9.22")
+  id("com.diffplug.spotless").version("7.0.2")
+  id("com.github.spotbugs").version("6.0.15")
 }
 
 repositories {
@@ -12,8 +14,33 @@ java {
   }
 }
 
+spotless {
+  java {
+    googleJavaFormat("1.17.0")
+    formatAnnotations()
+    importOrder()
+    removeUnusedImports()
+  }
+}
+
+spotbugs {
+  toolVersion.set("4.8.3") // compatible with JVM 21
+  ignoreFailures.set(false)
+  effort.set(com.github.spotbugs.snom.Effort.MAX)
+  reportLevel.set(com.github.spotbugs.snom.Confidence.LOW)
+}
+
 tasks.withType<JavaCompile>().configureEach {
   options.compilerArgs.add("-Xlint:deprecation")
+}
+
+tasks.named("build") {
+  dependsOn("spotlessApply")
+  dependsOn("spotbugsMain")
+}
+
+tasks.named("check") {
+  dependsOn("spotbugsTest")
 }
 
 tasks.test {
@@ -45,6 +72,8 @@ dependencies {
   implementation("com.google.inject:guice:7.0.0")
   implementation("com.ibm.icu:icu4j:77.1")
   implementation("org.slf4j:slf4j-api:2.0.17")
+
+  testCompileOnly("com.github.spotbugs:spotbugs-annotations:4.8.3")
 
   testImplementation("org.assertj:assertj-core:3.27.3")
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.12.1")
