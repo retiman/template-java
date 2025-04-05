@@ -1,5 +1,6 @@
 plugins {
   kotlin("jvm").version("1.9.22")
+  id("com.diffplug.spotless").version("7.0.2")
 }
 
 repositories {
@@ -12,8 +13,21 @@ java {
   }
 }
 
+spotless {
+  java {
+    googleJavaFormat("1.17.0")
+    formatAnnotations()
+    importOrder()
+    removeUnusedImports()
+  }
+}
+
 tasks.withType<JavaCompile>().configureEach {
   options.compilerArgs.add("-Xlint:deprecation")
+}
+
+tasks.named("build") {
+  dependsOn("spotlessApply")
 }
 
 tasks.test {
