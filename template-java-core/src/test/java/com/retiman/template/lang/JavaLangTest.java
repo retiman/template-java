@@ -1,4 +1,4 @@
-package com.retiman.template.locale;
+package com.retiman.template.lang;
 
 import org.junit.jupiter.api.Test;
 
