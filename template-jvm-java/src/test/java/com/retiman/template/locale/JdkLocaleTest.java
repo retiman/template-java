@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public final class JdkLocaleTest {
   @Test
   public void testStringRepresentations() {
-    Locale locale =
+    var locale =
         new Locale.Builder()
             .setLanguage("zh")
             .setScript("Hans")
@@ -42,15 +42,15 @@ public final class JdkLocaleTest {
     assertThat(locale.getDisplayVariant()).isEqualTo("wadegile");
 
     // The IETF language tag; however, can be used to reconstruct a locale.
-    String tag = "zh-Hans-CN-wadegile-t-en-u-latn-x-apex";
+    var tag = "zh-Hans-CN-wadegile-t-en-u-latn-x-apex";
     assertThat(locale.toLanguageTag()).isEqualTo(tag);
     assertThat(Locale.forLanguageTag(tag)).isEqualTo(locale);
   }
 
   @Test
   public void testEquivalentLegacyCodes() {
-    Locale iw = new Locale("iw");
-    Locale he = new Locale("he");
+    var iw = new Locale("iw");
+    var he = new Locale("he");
 
     // In older versions of Java, the JDK locale class conveniently converts the ISO-639 code for
     // "he" (Hebrew) to "iw"
@@ -80,8 +80,8 @@ public final class JdkLocaleTest {
   public void testLanguageCodes() {
     // A list of ISO-639 codes can be found here:
     // https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-    Locale afrikaans2c = new Locale("af");
-    Locale afrikaans3c = new Locale("afr");
+    var afrikaans2c = new Locale("af");
+    var afrikaans3c = new Locale("afr");
 
     assertThat(afrikaans2c.toString()).isEqualTo("af");
     assertThat(afrikaans2c.toLanguageTag()).isEqualTo("af");
@@ -92,8 +92,8 @@ public final class JdkLocaleTest {
 
   @Test
   public void testLanguageCodesNormalized() {
-    Locale lower = new Locale("en");
-    Locale upper = new Locale("EN");
+    var lower = new Locale("en");
+    var upper = new Locale("EN");
 
     assertThat(lower.getLanguage()).isEqualTo("en");
     assertThat(upper.getLanguage()).isEqualTo("en");
@@ -106,14 +106,14 @@ public final class JdkLocaleTest {
   public void testInvalidLanguageCodes() {
     // A list of ISO-639 codes can be found here:
     // https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-    Locale locale = new Locale("abcd");
+    var locale = new Locale("abcd");
 
     assertThat(locale.toLanguageTag()).isEqualTo("abcd");
   }
 
   @Test
   public void testInvalidTooShortScript() {
-    Throwable thrown =
+    var thrown =
         catchThrowable(() -> new Locale.Builder().setLanguage("zh").setScript("Han").build());
 
     assertThat(thrown).isExactlyInstanceOf(IllformedLocaleException.class);
@@ -121,7 +121,7 @@ public final class JdkLocaleTest {
 
   @Test
   public void testInvalidScriptForLanguage() {
-    Locale locale = new Locale.Builder().setLanguage("en").setScript("Hant").build();
+    var locale = new Locale.Builder().setLanguage("en").setScript("Hant").build();
 
     assertThat(locale.toString()).isEqualTo("en__#Hant");
     assertThat(locale.toLanguageTag()).isEqualTo("en-Hant");
@@ -130,8 +130,8 @@ public final class JdkLocaleTest {
   @Test
   public void testRegionCodes() {
     // A list of ISO-3661 codes can be found here: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-    Locale franceFr = new Locale("fr", "FR");
-    Locale france250 = new Locale("fr", "250");
+    var franceFr = new Locale("fr", "FR");
+    var france250 = new Locale("fr", "250");
 
     assertThat(franceFr.toLanguageTag()).isEqualTo("fr-FR");
     assertThat(france250.toLanguageTag()).isEqualTo("fr-250");
@@ -140,8 +140,8 @@ public final class JdkLocaleTest {
 
   @Test
   public void testRegionCodesNormalized() {
-    Locale lower = new Locale("fr", "fr");
-    Locale upper = new Locale("fr", "FR");
+    var lower = new Locale("fr", "fr");
+    var upper = new Locale("fr", "FR");
 
     assertThat(lower.getCountry()).isEqualTo("FR");
     assertThat(upper.getCountry()).isEqualTo("FR");
@@ -152,7 +152,7 @@ public final class JdkLocaleTest {
 
   @Test
   public void testVariantsAreLowercased() {
-    Locale locale = new Locale("en", "US", "variant");
+    var locale = new Locale("en", "US", "variant");
 
     assertThat(locale.getVariant()).isEqualTo("variant");
     assertThat(locale.toLanguageTag()).isEqualTo("en-US-variant");
@@ -160,7 +160,7 @@ public final class JdkLocaleTest {
 
   @Test
   public void testInvalidShortVariantsAreConvertedToExtensions() {
-    Locale locale = new Locale("en", "US", "1");
+    var locale = new Locale("en", "US", "1");
 
     // The toString value gives the variant value as is.  Since the toString value is not part of
     // any specification,
@@ -173,11 +173,11 @@ public final class JdkLocaleTest {
     assertThat(locale.toLanguageTag()).isEqualTo("en-US-x-lvariant-1");
 
     // They can be converted back to Locales as well.
-    Locale converted = Locale.forLanguageTag("en-US-x-lvariant-1");
+    var converted = Locale.forLanguageTag("en-US-x-lvariant-1");
 
     assertThat(converted.getVariant()).isEqualTo("1");
 
-    Locale extension =
+    var extension =
         new Locale.Builder()
             .setLanguage("en")
             .setRegion("US")
@@ -188,7 +188,7 @@ public final class JdkLocaleTest {
 
   @Test
   public void testInvalidLongVariantsAreDiscarded() {
-    Locale locale = new Locale("en", "US", "thisvariantistoolong");
+    var locale = new Locale("en", "US", "thisvariantistoolong");
 
     // The toString value gives the variant value as is.  Since the toString value is not part of
     // any specification,
@@ -206,7 +206,7 @@ public final class JdkLocaleTest {
 
   @Test
   public void testInvalidExtensionsThatAreTooShort() {
-    Locale locale = new Locale.Builder().setLanguage("en").setExtension('x', "1").build();
+    var locale = new Locale.Builder().setLanguage("en").setExtension('x', "1").build();
 
     assertThat(locale.toString()).isEqualTo("en__#x-1");
     assertThat(locale.toLanguageTag()).isEqualTo("en-x-1");
@@ -219,7 +219,7 @@ public final class JdkLocaleTest {
 
   @Test
   public void testInvalidExtensionsThatAreTooLongAreIllformed() {
-    Throwable thrown =
+    var thrown =
         catchThrowable(
             () ->
                 new Locale.Builder()
