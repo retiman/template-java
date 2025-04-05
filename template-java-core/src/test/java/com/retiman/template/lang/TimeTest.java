@@ -6,7 +6,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.Test;
 
-public final class JavaTimeTest {
+public final class TimeTest {
   @Test
   public void testLocalDate() {
     // With Java 8, JodaTime is obsolete.  Migrate to java.time instead.

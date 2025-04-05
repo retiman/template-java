@@ -2,14 +2,14 @@ package com.retiman.template.lang;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.jupiter.api.Test;
 
-public final class JavaLangTest {
+public final class LangTest {
   @Test
   public void testEqualityWithIntegerPool() {
-    // See
     // https://stackoverflow.com/questions/13098143/why-does-the-behavior-of-the-integer-constant-pool-change-at-127
-    // See https://docs.oracle.com/javase/specs/jls/se7/html/jls-5.html#jls-5.1.7
+    // https://docs.oracle.com/javase/specs/jls/se7/html/jls-5.html#jls-5.1.7
     assertThat(isIntegerEquals(127, 127)).isTrue();
     assertThat(isIntegerEquals(128, 128)).isFalse();
   }
@@ -21,6 +21,7 @@ public final class JavaLangTest {
     assertThat(Math.abs(-2147483648)).isLessThan(0);
   }
 
+  @SuppressFBWarnings("RC_REF_COMPARISON")
   private boolean isIntegerEquals(Integer a, Integer b) {
     return a == b;
   }
