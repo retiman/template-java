@@ -1,6 +1,7 @@
 package com.retiman.template.lang;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.function.Supplier;
@@ -55,7 +56,30 @@ public final class LangTest {
     assertThat(letters).isEqualTo(7);
   }
 
+  @Test
+  public void testTextBlocks() {
+    var text = """
+      Java 15 introduced text blocks.
+     """;
+
+    assertThat(text.trim()).isEqualTo("Java 15 introduced text blocks.");
+  }
+
+  @Test
+  @SuppressFBWarnings("BC_VACUOUS_INSTANCEOF")
+  @SuppressWarnings("ConstantConditions")
+  public void testPatternMatchingForInstanceOf() {
+    Object obj = "Hello";
+
+    if (obj instanceof String s) {
+      assertThat(s.length()).isEqualTo(5);
+    } else {
+      fail();
+    }
+  }
+
   @SuppressFBWarnings("RC_REF_COMPARISON")
+  @SuppressWarnings("NumberEquality")
   private boolean isIntegerEquals(Integer a, Integer b) {
     return a == b;
   }

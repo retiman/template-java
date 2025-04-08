@@ -1,8 +1,8 @@
-package com.retiman.template.lang;
+package com.retiman.template.lang.testing;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-interface JavaInterface {
+public interface JavaInterface {
   // Java 8 introduced default methods in interfaces.
   default int getValue() {
     return this.getPrivateValue() * 2;
