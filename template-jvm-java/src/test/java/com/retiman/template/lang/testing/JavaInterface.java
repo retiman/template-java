@@ -1,4 +1,4 @@
-package com.retiman.template.lang;
+package com.retiman.template.lang.testing;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

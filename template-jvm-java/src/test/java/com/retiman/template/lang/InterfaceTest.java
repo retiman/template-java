@@ -2,6 +2,7 @@ package com.retiman.template.lang;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.retiman.template.lang.testing.JavaInterface;
 import org.junit.jupiter.api.Test;
 
 public final class InterfaceTest {
