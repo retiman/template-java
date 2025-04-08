@@ -66,6 +66,8 @@ public final class LangTest {
   }
 
   @Test
+  @SuppressFBWarnings("BC_VACUOUS_INSTANCEOF")
+  @SuppressWarnings("ConstantConditions")
   public void testPatternMatchingForInstanceOf() {
     Object obj = "Hello";
 
@@ -77,6 +79,7 @@ public final class LangTest {
   }
 
   @SuppressFBWarnings("RC_REF_COMPARISON")
+  @SuppressWarnings("NumberEquality")
   private boolean isIntegerEquals(Integer a, Integer b) {
     return a == b;
   }
