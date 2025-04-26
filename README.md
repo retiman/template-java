@@ -1,6 +1,6 @@
-# template-java
+# template-jvm
 
-Template repository for my Java projects.
+Template repository for my Java and Kotlin projects.
 
 ## Local Development
 
